@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: reservation-system-api
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/reservation_system
+    username: linktic
+    password: linktic
+server:
+  port: 8090
