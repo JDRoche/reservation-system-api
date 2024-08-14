@@ -11,6 +11,5 @@ spring:
     username: linktic
     password: linktic
 
-
 server:
   port: 8090

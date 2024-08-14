@@ -1,5 +1,7 @@
 package com.linktic.reservation_system_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.linktic.reservation_system_api.util.RoomStatus;
 import com.linktic.reservation_system_api.util.RoomType;
 import jakarta.persistence.Column;
@@ -13,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -22,6 +25,7 @@ import java.math.BigDecimal;
  * The room can be associated with a reservation.
  */
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "rooms")
 public class Room {
@@ -56,5 +60,6 @@ public class Room {
      */
     @ManyToOne
     @JoinColumn(name = "reservation_id")
+    @JsonIgnore
     private Reservation reservation;
 }

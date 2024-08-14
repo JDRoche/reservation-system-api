@@ -1,5 +1,8 @@
 package com.linktic.reservation_system_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +52,7 @@ public class User {
     /**
      * The password of the user, stored securely.
      */
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     /**
@@ -68,5 +72,6 @@ public class User {
      * A user can have multiple reservations.
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Reservation> reservations;
 }
