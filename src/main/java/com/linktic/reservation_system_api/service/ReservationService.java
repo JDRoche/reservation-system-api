@@ -20,10 +20,10 @@ public interface ReservationService {
      * @param startDate The start date of the reservation range. If null, this filter is ignored.
      * @param endDate The end date of the reservation range. If null, this filter is ignored.
      * @param roomType The type of room to filter by. If null, this filter is ignored.
-     * @param userId The id of the user who made the reservation. If null, this filter is ignored.
+     * @param userEmail The email of the user who made the reservation. If null, this filter is ignored.
      * @return an {@link Response} containing the list of reservations matching the provided filters.
      */
-    Response<List<Reservation>> getReservations(LocalDateTime startDate, LocalDateTime endDate, RoomType roomType, Long userId);
+    Response<List<Reservation>> getReservations(LocalDateTime startDate, LocalDateTime endDate, RoomType roomType, String userEmail);
 
     /**
      * Retrieves a reservation by its ID.

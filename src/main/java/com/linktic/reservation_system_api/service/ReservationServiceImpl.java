@@ -37,11 +37,14 @@ public class ReservationServiceImpl implements ReservationService {
     private final UserRepository userRepository;
 
     @Override
-    public Response<List<Reservation>> getReservations(LocalDateTime startDate, LocalDateTime endDate, RoomType roomType, Long userId) {
+    public Response<List<Reservation>> getReservations(LocalDateTime startDate, LocalDateTime endDate, RoomType roomType, String userEmail) {
         log.info("Fetching all reservations");
         User user = null;
-        if (userId != null) {
-            user = userRepository.findById(userId).orElse(null);
+        if (userEmail != null) {
+            user = userRepository.findByEmail(userEmail).orElse(null);
+            if (user == null) {
+                return new Response<>(true, "Reservations fetched successfully", HttpStatus.OK.value(), new ArrayList<>());
+            }
         }
         List<Reservation> reservations = reservationRepository.findReservationsByFilters(startDate, endDate, roomType, user);
         log.info("Fetched {} reservations", reservations.size());
@@ -174,11 +177,11 @@ public class ReservationServiceImpl implements ReservationService {
             log.error("Reservation date is before booking date for reservation");
             return new Response<>(false, "Reservation date must be after booking date", HttpStatus.BAD_REQUEST.value(), null);
         }
-        if(reservationDto.getRoomIds() == null || reservationDto.getRoomIds().isEmpty()){
+        if (reservationDto.getRoomIds() == null || reservationDto.getRoomIds().isEmpty()) {
             log.error("Rooms can not be empty");
             return new Response<>(false, "Rooms can not be empty", HttpStatus.BAD_REQUEST.value(), null);
         }
-        if(reservationDto.getUserEmail() == null){
+        if (reservationDto.getUserEmail() == null) {
             log.error("User is required");
             return new Response<>(false, "User is required", HttpStatus.BAD_REQUEST.value(), null);
         }

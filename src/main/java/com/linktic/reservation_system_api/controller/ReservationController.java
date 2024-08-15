@@ -63,9 +63,9 @@ public class ReservationController {
             @Parameter(description = "Type of room for filtering reservations")
             @RequestParam(required = false) RoomType roomType,
 
-            @Parameter(description = "User ID for filtering reservations")
-            @RequestParam(required = false) Long userId) {
-        Response<List<Reservation>> response = reservationService.getReservations(startDate, endDate, roomType, userId);
+            @Parameter(description = "User Email for filtering reservations")
+            @RequestParam(required = false) String userEmail) {
+        Response<List<Reservation>> response = reservationService.getReservations(startDate, endDate, roomType, userEmail);
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getStatusCode()));
     }
 
