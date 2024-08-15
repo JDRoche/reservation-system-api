@@ -65,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public Response<Reservation> saveReservation(ReservationDTO reservationDto) {
 
-        log.info("Starting reservation creation for user ID: {}", reservationDto.getUserId());
+        log.info("Starting reservation creation for user: {}", reservationDto.getUserEmail());
         Response<Reservation> reservationResponse = validateReservation(reservationDto);
         if (!reservationResponse.getSuccess()) {
             return reservationResponse;
@@ -178,14 +178,14 @@ public class ReservationServiceImpl implements ReservationService {
             log.error("Rooms can not be empty");
             return new Response<>(false, "Rooms can not be empty", HttpStatus.BAD_REQUEST.value(), null);
         }
-        if(reservationDto.getUserId() == null){
+        if(reservationDto.getUserEmail() == null){
             log.error("User is required");
             return new Response<>(false, "User is required", HttpStatus.BAD_REQUEST.value(), null);
         }
 
-        Optional<User> userOpt = userRepository.findById(reservationDto.getUserId());
+        Optional<User> userOpt = userRepository.findByEmail(reservationDto.getUserEmail());
         if (userOpt.isEmpty()) {
-            log.error("User not found with ID: {}", reservationDto.getUserId());
+            log.error("User not found with Email: {}", reservationDto.getUserEmail());
             return new Response<>(false, "User not found", HttpStatus.NOT_FOUND.value(), null);
         }
         User user = userOpt.get();

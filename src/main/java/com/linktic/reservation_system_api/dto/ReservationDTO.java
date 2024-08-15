@@ -23,7 +23,7 @@ public class ReservationDTO {
     /**
      * The id of the user who made the reservation.
      */
-    private Long userId;
+    private String userEmail;
 
     /**
      * The ids of the rooms associated with the reservation.
