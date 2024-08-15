@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatusCode;
@@ -24,6 +25,7 @@ import java.util.List;
  * REST controller for managing reservations.
  * Provides endpoints to perform CRUD operations on reservations.
  */
+@Tag(name = "Reservation API", description = "API for managing reservations")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/reservations")
