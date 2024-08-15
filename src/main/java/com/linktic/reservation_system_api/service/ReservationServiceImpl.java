@@ -164,17 +164,23 @@ public class ReservationServiceImpl implements ReservationService {
 
     private Response<Reservation> validateReservation(ReservationDTO reservationDto) {
 
-        if (reservationDto.getBookingDate() == null || reservationDto.getReservationDate() == null) {
-            log.error("Booking date or reservation date is missing for reservation");
-            return new Response<>(false, "Booking date and reservation date are required", HttpStatus.BAD_REQUEST.value(), null);
+        LocalDateTime bookingDate = LocalDateTime.now();
+
+        if (reservationDto.getReservationDate() == null) {
+            log.error("Reservation date is missing for reservation");
+            return new Response<>(false, "Reservation date is required", HttpStatus.BAD_REQUEST.value(), null);
         }
-        if (reservationDto.getBookingDate().isAfter(reservationDto.getReservationDate())) {
-            log.error("Booking date is after reservation date for reservation");
-            return new Response<>(false, "Booking date must be before reservation date", HttpStatus.BAD_REQUEST.value(), null);
+        if (bookingDate.isAfter(reservationDto.getReservationDate())) {
+            log.error("Reservation date is before booking date for reservation");
+            return new Response<>(false, "Reservation date must be after booking date", HttpStatus.BAD_REQUEST.value(), null);
         }
-        if(reservationDto.getRoomIds().isEmpty()){
+        if(reservationDto.getRoomIds() == null || reservationDto.getRoomIds().isEmpty()){
             log.error("Rooms can not be empty");
             return new Response<>(false, "Rooms can not be empty", HttpStatus.BAD_REQUEST.value(), null);
+        }
+        if(reservationDto.getUserId() == null){
+            log.error("User is required");
+            return new Response<>(false, "User is required", HttpStatus.BAD_REQUEST.value(), null);
         }
 
         Optional<User> userOpt = userRepository.findById(reservationDto.getUserId());
@@ -213,7 +219,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = Reservation.builder()
                 .user(user)
                 .rooms(rooms.stream().map(Optional::get).toList())
-                .bookingDate(reservationDto.getBookingDate())
+                .bookingDate(bookingDate)
                 .reservationDate(reservationDto.getReservationDate())
                 .build();
 

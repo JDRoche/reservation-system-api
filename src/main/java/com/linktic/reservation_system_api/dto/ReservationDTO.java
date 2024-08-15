@@ -15,11 +15,6 @@ import java.util.Set;
 public class ReservationDTO {
 
     /**
-     * The date and time when the reservation was created.
-     */
-    private LocalDateTime bookingDate;
-
-    /**
      * The date when the reservation is scheduled.
      */
     private LocalDateTime reservationDate;
